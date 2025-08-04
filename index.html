@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RP Archive</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;500&display=swap');
+
+  :root {
+    --bg-color: #f9f8f6;
+    --text-color: #333;
+    --header-bg: linear-gradient(135deg, #ece9e6, #ffffff);
+    --header-text: #222;
+    --border-color: #ddd;
+    --card-bg: #fff;
+    --card-shadow: rgba(0,0,0,0.04);
+    --card-border: #f0f0f0;
+    --tag-bg: #f2f2f2;
+    --tag-text: #555;
+    --tag-border: #e0e0e0;
+    --footer-text: #888;
+    --footer-border: #e0e0e0;
+    --link-hover-shadow: rgba(0,0,0,0.06);
+  }
+
+  body.dark {
+    --bg-color: #121212;
+    --text-color: #ddd;
+    --header-bg: linear-gradient(135deg, #1f1f1f, #121212);
+    --header-text: #eee;
+    --border-color: #333;
+    --card-bg: #1f1f1f;
+    --card-shadow: rgba(0,0,0,0.8);
+    --card-border: #333;
+    --tag-bg: #333;
+    --tag-text: #aaa;
+    --tag-border: #444;
+    --footer-text: #aaa;
+    --footer-border: #333;
+    --link-hover-shadow: rgba(100,150,255,0.4);
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  /* Elegant Header */
+  header {
+    background: var(--header-bg);
+    color: var(--header-text);
+    text-align: center;
+    padding: 60px 20px 80px;
+    border-bottom: 1px solid var(--border-color);
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  header h1 {
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+  header p {
+    margin-top: 10px;
+    font-size: 1.05rem;
+    color: var(--tag-text);
+    transition: color 0.3s ease;
+  }
+
+  /* Main container */
+  main {
+    max-width: 950px;
+    margin: 0 auto;
+    padding: 50px 20px;
+  }
+
+  /* Section titles */
+  h2.section-title {
+    font-size: 1.4rem;
+    margin: 50px 0 20px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    color: var(--header-text);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 6px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  /* RP Cards Grid */
+  .rp-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Card styling */
+  .rp-card {
+    display: block;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px var(--card-shadow);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.3s ease, border-color 0.3s ease;
+    border: 1px solid var(--card-border);
+    overflow: hidden;
+  }
+  .rp-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 16px var(--link-hover-shadow);
+  }
+
+  /* Thumbnail image */
+  .rp-thumb {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    filter: saturate(0.9) brightness(0.98);
+    transition: filter 0.2s ease;
+  }
+  .rp-card:hover .rp-thumb {
+    filter: saturate(1) brightness(1);
+  }
+
+  /* Card content */
+  .rp-content {
+    padding: 18px;
+  }
+
+  /* Tags */
+  .tags {
+    margin-bottom: 10px;
+  }
+  .tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 50px;
+    margin-right: 6px;
+    font-weight: 500;
+    border: 1px solid var(--tag-border);
+    -webkit-user-select: none;
+    user-select: none;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  .tag.nsfw { background: #f8e4e4; color: #8a2b2b; border-color: #f0cccc; }
+  body.dark .tag.nsfw { background: #5c2b2b; color: #f2b8b8; border-color: #793939; }
+
+  .tag.ongoing { background: #e4f1ec; color: #285e4b; border-color: #cce0d7; }
+  body.dark .tag.ongoing { background: #1b3a2b; color: #a0d3b1; border-color: #23532f; }
+
+  .tag.completed { background: #f7f0da; color: #6d5528; border-color: #eee2b7; }
+  body.dark .tag.completed { background: #5e5529; color: #e0d5a2; border-color: #7b752c; }
+
+  /* Titles & descriptions */
+  .rp-card h3 {
+    margin: 0 0 8px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--header-text);
+    transition: color 0.3s ease;
+  }
+  .rp-card p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--tag-text);
+    transition: color 0.3s ease;
+  }
+  .rp-meta {
+    margin-top: 10px;
+    font-size: 0.78rem;
+    color: #999;
+    font-style: italic;
+    transition: color 0.3s ease;
+  }
+  body.dark .rp-meta {
+    color: #bbb;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--footer-text);
+    padding: 30px;
+    margin-top: 60px;
+    border-top: 1px solid var(--footer-border);
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  /* Dark/Light Mode Toggle Button */
+  #themeToggle {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background 0.3s ease,
+      color 0.3s ease,
+      border-color 0.3s ease;
+    z-index: 9999;
+  }
+  #themeToggle:hover {
+    background: var(--link-hover-shadow);
+    color: white;
+    border-color: var(--link-hover-shadow);
+  }
+</style>
+</head>
+<body>
+<button id="themeToggle" aria-label="Toggle dark/light mode">🌙</button>
+
+<header>
+  <h1>RP Archive</h1>
+  <p>A curated collection of our roleplay stories</p>
+</header>
+
+<main>
+  <!-- University Theme -->
+  <h2 class="section-title">University</h2>
+  <ul class="rp-list">
+    <li>
+      <a href="brynna_ash.html" class="rp-card">
+        <img src="imgs/nikandscar.jpg" alt="Campus Love" class="rp-thumb" />
+        <div class="rp-content">
+          <div class="tags">
+            <span class="tag completed">Completed</span>
+            <span class="tag nsfw">NSFW</span>
+          </div>
+          <h3>Campus Love</h3>
+          <p>A study session turns into something more...</p>
+          <div class="rp-meta">Jan 24, 2022 – Feb 2024</div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="rp_chat_with_data.html" class="rp-card">
+        <img src="images/roommates.jpg" alt="Roommates" class="rp-thumb" />
+        <div class="rp-content">
+          <div class="tags">
+            <span class="tag completed">Completed</span>
+          </div>
+          <h3>Roommates</h3>
+          <p>Living together isn’t always easy, but it’s never boring.</p>
+          <div class="rp-meta">Sep 2023 – Feb 2024</div>
+        </div>
+      </a>
+    </li>
+  </ul>
+
+  <!-- Royal Theme -->
+  <h2 class="section-title">Royal</h2>
+  <ul class="rp-list">
+    <li>
+      <a href="royal-banquet.html" class="rp-card">
+        <img src="images/banquet.jpg" alt="Royal Banquet" class="rp-thumb" />
+        <div class="rp-content">
+          <div class="tags">
+            <span class="tag ongoing">Ongoing</span>
+          </div>
+          <h3>The Royal Banquet</h3>
+          <p>Political intrigue brews beneath the glittering chandeliers.</p>
+          <div class="rp-meta">Started: Nov 2024</div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="forbidden-heir.html" class="rp-card">
+        <img src="images/heir.jpg" alt="The Forbidden Heir" class="rp-thumb" />
+        <div class="rp-content">
+          <div class="tags">
+            <span class="tag nsfw">NSFW</span>
+            <span class="tag completed">Completed</span>
+          </div>
+          <h3>The Forbidden Heir</h3>
+          <p>A romance that could topple the kingdom.</p>
+          <div class="rp-meta">Mar 2023 – Aug 2023</div>
+        </div>
+      </a>
+    </li>
+  </ul>
+
+  <!-- Miscellaneous Theme -->
+  <h2 class="section-title">Miscellaneous</h2>
+  <ul class="rp-list">
+    <li>
+      <a href="tavern.html" class="rp-card">
+        <img src="images/tavern.jpg" alt="The Tavern Meeting" class="rp-thumb" />
+        <div class="rp-content">
+          <div class="tags">
+            <span class="tag completed">Completed</span>
+          </div>
+          <h3>The Tavern Meeting</h3>
+          <p>A cozy night by the fire turns into an unexpected adventure.</p>
+          <div class="rp-meta">Jan 2022 – May 2022</div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a href="forest.html" class="rp-card">
+        <img src="images/forest.jpg" alt="Whispers in the Forest" class="rp-thumb" />
+        <div class="rp-content">
+          <div class="tags">
+            <span class="tag ongoing">Ongoing</span>
+          </div>
+          <h3>Whispers in the Forest</h3>
+          <p>Strange voices lure travelers deeper into the misty woods.</p>
+          <div class="rp-meta">Started: Jun 2025</div>
+        </div>
+      </a>
+    </li>
+  </ul>
+</main>
+
+<footer>
+  © 2025 RP Archive. All rights reserved.
+</footer>
+
+<script>
+  const toggleBtn = document.getElementById('themeToggle');
+  const savedTheme = localStorage.getItem('theme') || 'light';
+
+  if(savedTheme === 'dark') {
+    document.body.classList.add('dark');
+    toggleBtn.textContent = '☀️';
+  } else {
+    toggleBtn.textContent = '🌙';
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    const isDark = document.body.classList.contains('dark');
+    toggleBtn.textContent = isDark ? '☀️' : '🌙';
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+</script>
+</body>
+</html>
