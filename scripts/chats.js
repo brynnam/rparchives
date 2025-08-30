@@ -119,7 +119,7 @@ function renderChat(messages) {
 // 🔹 Back-to-top button
 const topBtn = document.createElement('button');
 topBtn.id = 'topButton';
-topBtn.textContent = '⮸';
+topBtn.textContent = '↑';
 document.body.appendChild(topBtn);
 
 chatEl.addEventListener('scroll', () => {
